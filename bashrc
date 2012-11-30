@@ -17,6 +17,9 @@ fi
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# SSH Keychain
+eval $(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)
+
 # -------------------------------------------------------
 # Prompt / Xterm
 # -------------------------------------------------------
