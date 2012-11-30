@@ -1,0 +1,3 @@
+#!/bin/bash
+# Search for [$1...$n] in files from $PWD
+ff() { local IFS='|'; grep -rinE "$*" . ; }
