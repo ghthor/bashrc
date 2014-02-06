@@ -1,7 +1,11 @@
 export PROJ=$HOME/proj
 export GAMESLAB=$PROJ/gameslab
+
 export GOBIN=$HOME/bin
-export GOPATH=$PROJ/go/
+export GOPATH=$PROJ/go
+export go_github=$GOPATH/src/github.com
+export go_bitbucket=$GOPATH/src/bitbucket.org
+
 export EDITOR=vim
 
 # Fix TERM variable
