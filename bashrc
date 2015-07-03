@@ -1,3 +1,4 @@
+# Establish Environment
 export PROJ=$HOME/proj
 export GAMESLAB=$PROJ/gameslab
 
