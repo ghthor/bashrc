@@ -52,9 +52,13 @@ parse_ruby_version() {
   fi
 }
 
+# Set the terminal title string
+# Looks like this:
+#     user@hostname: ~/current/working/directory
+#
 # Set the prompt string (PS1)
 # Looks like this:
-#     user@computer ~/src/ubuntu_config [master|1.8.7]$
+#     user@hostname ~/current/working/directory [master|1.8.7]$
 
 # (Prompt strings need '\['s around colors.)
 set_ps1() {
@@ -79,7 +83,14 @@ set_ps1() {
   fi
 
   # < username >@< hostname > < current directory > [< git branch >|< ruby version >]
-  PS1="${debian_chroot:+($debian_chroot)}$user_str $dir_str $env_str\[$_sep_col\]$ \[$_txt_col\]"
+  case $TERM in
+      xterm*)
+          PS1="\[\033]0;\u@\h: \w\007\]$user_str $dir_str $env_str\[$_sep_col\]$ \[$_txt_col\]"
+          ;;
+      *)
+          PS1='[\u@\h \W]\$ '
+          ;;
+  esac
 }
 
 # Set custom prompt
@@ -87,16 +98,6 @@ PROMPT_COMMAND='set_ps1;'
 
 # Set GREP highlight color
 export GREP_COLOR='1;32'
-
-# Custom Xterm/RXVT Title
-case "$TERM" in
-xterm*|rxvt*)
-    PROMPT_COMMAND+='echo -ne "\e]0;${USER}@${HOSTNAME}: ${PWD}\007";'
-    ;;
-*)
-    PS1='[\u@\h \W]\$ '
-    ;;
-esac
 
 # -------------------------------------------------------
 # Prompt / Xterm
