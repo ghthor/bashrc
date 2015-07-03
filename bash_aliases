@@ -1,5 +1,4 @@
 #!/bin/bash
-alias ls='ls --color'
 alias l='ls -l'
 alias l..='(cd ..; ls -l)'
 alias ll='ls -l'
