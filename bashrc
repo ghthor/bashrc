@@ -9,6 +9,8 @@ export go_bitbucket=$GOPATH/src/bitbucket.org
 
 export EDITOR=vim
 
+export CLICOLOR=""
+
 # Fix TERM variable
 if [ "$TERM" == "xterm" ] ; then
     TERM=xterm-256color
