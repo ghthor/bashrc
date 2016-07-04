@@ -20,4 +20,4 @@ alias gfresh='g reset --hard HEAD && git clean -f -d'
 alias kch='eval $(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)'
 
 # Golang Quickies
-alias godoc='godoc -goroot=/usr/lib/go -http=":6060"'
+#alias godoc='godoc -goroot=/usr/lib/go -http=":6060"'
