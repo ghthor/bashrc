@@ -121,7 +121,7 @@ fi
 
 set -o vi
 
-# SCM Breeze
+# Setup SCM Breeze
 [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"
 
 # Setup autojump support
