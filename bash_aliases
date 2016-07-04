@@ -8,6 +8,7 @@ alias pfind='ps aux | grep $1'
 alias vit='vim $HOME/.tmp/temp'
 alias vrc='vim $HOME/.vimrc'
 
+alias open='xdg-open'
 alias pyhttp='python3 -m http.server 8000'
 
 # Git Quickies
