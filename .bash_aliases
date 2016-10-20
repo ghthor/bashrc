@@ -8,7 +8,6 @@ alias pfind='ps aux | grep $1'
 alias vit='vim $HOME/.tmp/temp'
 alias vrc='vim $HOME/.vimrc'
 
-alias open='xdg-open'
 alias pyhttp='python3 -m http.server 8000'
 
 # Git Quickies
@@ -16,8 +15,14 @@ alias gitexport='git daemon --base-path=$PWD/../ --verbose --export-all'
 alias gtree='git-forest --sha -n20'
 alias gfresh='g reset --hard HEAD && git clean -f -d'
 
-# keychain
-alias kch='eval $(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)'
+
+if [[ $(uname) == "Darwin" ]]; then
+	alias xcrmdd='rm -rf $HOME/Library/Developer/Xcode/DerivedData/*'
+else
+	# keychain
+	alias kch='eval $(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)'
+	alias open='xdg-open'
+fi
 
 # Golang Quickies
 #alias godoc='godoc -goroot=/usr/lib/go -http=":6060"'
