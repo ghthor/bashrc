@@ -18,6 +18,7 @@ alias gfresh='g reset --hard HEAD && git clean -f -d'
 
 if [[ $(uname) == "Darwin" ]]; then
 	alias xcrmdd='rm -v -rf $HOME/Library/Developer/Xcode/DerivedData/*'
+	alias openproj='open *.xcworkspace'
 else
 	# keychain
 	alias kch='eval $(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)'
