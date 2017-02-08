@@ -115,13 +115,13 @@ export GREP_COLOR='1;32'
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f "$HOME/.bash_aliases" ]; then
+    . "$HOME/.bash_aliases"
 fi
 
 # Function definitions
-if [ -f ~/.bash_funcs ]; then
-    . ~/.bash_funcs
+if [ -f "$HOME/.bash_funcs" ]; then
+    . "$HOME/.bash_funcs"
 fi
 
 set -o vi
