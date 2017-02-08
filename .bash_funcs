@@ -1,3 +1,5 @@
 #!/bin/bash
 # Search for [$1...$n] in files from $PWD
 ff() { local IFS='|'; grep -rinE "$*" . ; }
+
+type whence > /dev/null 2>&1 || whence() { type "$@" | sed -e "s/.*is aliased to \`//" -e "s/'$//"; }
