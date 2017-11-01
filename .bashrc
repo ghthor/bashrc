@@ -30,7 +30,7 @@ fi
 [[ $- != *i* ]] && return
 
 # Homebrew bash completion
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
+if [[ $(command -v brew >/dev/null 2>&1) && -f $(brew --prefix)/etc/bash_completion ]]; then
     . $(brew --prefix)/etc/bash_completion
 fi
 
