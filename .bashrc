@@ -2,7 +2,7 @@
 export PROJ=$HOME/proj
 export GAMESLAB=$PROJ/gameslab
 
-export GOBIN=$HOME/bin
+export GOBIN=$HOME/bin/go
 export GOPATH=$PROJ/go
 export go_github=$GOPATH/src/github.com
 export go_bitbucket=$GOPATH/src/bitbucket.org
@@ -24,6 +24,11 @@ fi
 # Add Home bin dir to path
 if [[ -d "$HOME/bin"  && ":$PATH:" != *":$HOME/bin:"* ]] ; then
     PATH=$HOME/bin:$PATH
+fi
+
+# Add Home bin dir to path
+if [[ -d "$GOBIN" && ":$PATH:" != *":$GOBIN:"* ]] ; then
+    PATH=$GOBIN:$PATH
 fi
 
 # If not running interactively, don't do anything
