@@ -1,7 +1,5 @@
 # Establish Environment
 export PROJ=$HOME/proj
-export GAMESLAB=$PROJ/gameslab
-
 export GOBIN=$HOME/bin/go
 export GOPATH=$PROJ/go
 export go_github=$GOPATH/src/github.com
