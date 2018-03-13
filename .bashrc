@@ -80,6 +80,7 @@ parse_ruby_version() {
 
 # (Prompt strings need '\['s around colors.)
 set_ps1() {
+  term_title_str="\[\033]0;\u@\h: \w\007\]"
   user_str="\[$_usr_col\]\u\[$_hst_col\]@\h\[$_txt_col\]"
   dir_str="\[$_cwd_col\]\w"
   git_branch=`parse_git_branch`
@@ -103,7 +104,7 @@ set_ps1() {
   # < username >@< hostname > < current directory > [< git branch >|< ruby version >]
   case $TERM in
       xterm*)
-          PS1="$user_str $dir_str $env_str\n\[$_sep_col\]$ \[$_txt_col\]"
+          PS1="$term_title_str$user_str $dir_str $env_str\n\[$_sep_col\]$ \[$_txt_col\]"
           ;;
       *)
           PS1='[\u@\h \W]\$ '
