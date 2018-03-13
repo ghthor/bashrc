@@ -103,7 +103,7 @@ set_ps1() {
   # < username >@< hostname > < current directory > [< git branch >|< ruby version >]
   case $TERM in
       xterm*)
-          PS1="$user_str $dir_str $env_str\[$_sep_col\]$ \[$_txt_col\]"
+          PS1="$user_str $dir_str $env_str\n\[$_sep_col\]$ \[$_txt_col\]"
           ;;
       *)
           PS1='[\u@\h \W]\$ '
