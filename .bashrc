@@ -69,20 +69,24 @@ set_ps1() {
   term_title_str="\[\033]0;\u@\h: \w\007\]"
   user_str="\[$_usr_col\]\u\[$_hst_col\]@\h\[$_txt_col\]"
   dir_str="\[$_cwd_col\]\w"
+
   git_branch=`parse_git_branch`
   git_dirty=`parse_git_dirty`
-  #ruby=`parse_ruby_version`
-
   git_str="\[$_git_col\]$git_branch\[$_wrn_col\]$git_dirty"
-  # Git repo & ruby version
-  if [ -n "$git_branch" ] && [ -n "$ruby" ]; then
-    env_str="\[$_env_col\][$git_str\[$_env_col\]|$ruby]"
-  # Just git repo
+
+  if [ -n "$GOPATH" ]; then
+    gopath_str="$(basename $GOPATH)"
+  fi
+
+  # Git & Gopath
+  if [ -n "$git_branch" ] && [ -n "$gopath_str" ]; then
+    env_str=" \[$_env_col\][$git_str\[$_env_col\]|$gopath_str]"
+  # Just Git
   elif [ -n "$git_branch" ]; then
-    env_str="\[$_env_col\][$git_str\[$_env_col\]]"
-  # Just ruby version
-  elif [ -n "$ruby" ]; then
-    env_str="\[$_env_col\][$ruby]"
+    env_str=" \[$_env_col\][$git_str\[$_env_col\]]"
+  # Just Gopath
+  elif [ -n "$gopath_str" ]; then
+    env_str=" \[$_env_col\][$gopath_str]"
   else
     unset env_str
   fi
@@ -90,7 +94,7 @@ set_ps1() {
   # < username >@< hostname > < current directory > [< git branch >|< ruby version >]
   case $TERM in
       xterm*)
-          PS1="$term_title_str$user_str $dir_str $env_str\n\[$_sep_col\]$ \[$_txt_col\]"
+          PS1="$term_title_str$user_str $dir_str$env_str\n\[$_sep_col\]$ \[$_txt_col\]"
           ;;
       *)
           PS1='[\u@\h \W]\$ '
