@@ -31,9 +31,9 @@ fi
 [[ $- != *i* ]] && return
 
 # Homebrew bash completion
-if [[ $(command -v brew >/dev/null 2>&1) && -f $(brew --prefix)/etc/bash_completion ]]; then
-    . $(brew --prefix)/etc/bash_completion
-fi
+command -v brew 2>&1 > /dev/null && \
+  [[ -f $(brew --prefix)/etc/bash_completion ]] && \
+  . $(brew --prefix)/etc/bash_completion
 
 # -------------------------------------------------------
 # Prompt / Xterm
