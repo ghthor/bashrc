@@ -7,6 +7,16 @@ if [ "$TERM" == "xterm" ] ; then
     TERM=xterm-256color
 fi
 
+# Add $GOPATH/bin to path
+if [[ -d "$GOPATH/bin" && ":$PATH:" != *":$GOPATH/bin:"* ]] ; then
+    PATH=$GOPATH/bin:$PATH
+fi
+
+# Add $GOROOT/bin to path
+if [[ -d "$GOROOT/bin" && ":$PATH:" != *":$GOROOT/bin:"* ]] ; then
+    PATH=$GOROOT/bin:$PATH
+fi
+
 # Add $HOME/.local/bin to Path
 if [[ -d "$HOME/.local/bin" && ":$PATH:" != *":$HOME/.local/bin:"* ]] ; then
     PATH=$HOME/.local/bin:$PATH
