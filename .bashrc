@@ -8,12 +8,12 @@ if [ "$TERM" == "xterm" ] ; then
 fi
 
 # Add $HOME/.local/bin to Path
-if [[ -d "$HOME/.local/bin"  && ":$PATH:" != *":$HOME/.local/bin:"* ]] ; then
+if [[ -d "$HOME/.local/bin" && ":$PATH:" != *":$HOME/.local/bin:"* ]] ; then
     PATH=$HOME/.local/bin:$PATH
 fi
 
-# Add Home bin dir to path
-if [[ -d "$HOME/bin"  && ":$PATH:" != *":$HOME/bin:"* ]] ; then
+# Add $HOME/bin to path
+if [[ -d "$HOME/bin" && ":$PATH:" != *":$HOME/bin:"* ]] ; then
     PATH=$HOME/bin:$PATH
 fi
 
