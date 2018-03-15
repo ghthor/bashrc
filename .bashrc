@@ -86,6 +86,8 @@ set_ps1() {
 
   if [ -n "$GOPATH" ]; then
     gopath_str="$(basename $GOPATH)"
+  else
+    unset gopath_str
   fi
 
   # Git & Gopath
