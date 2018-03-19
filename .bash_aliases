@@ -27,5 +27,7 @@ else
 	alias sysupg='yaourt -Syua'
 fi
 
+alias cdgopath='cd $GOPATH'
+
 # Golang Quickies
 #alias godoc='godoc -goroot=/usr/lib/go -http=":6060"'
