@@ -5,6 +5,9 @@ export CLICOLOR=""
 export QMK_ROOT=$PROJ/hid/qmk_firmware
 export QMK_CUSTOM=$QMK_ROOT/keyboards/ergodox_ez/keymaps
 
+export WINEPREFIX=$HOME/.wine-dnd/
+export WINEARCH=win32
+
 # Fix TERM variable
 if [ "$TERM" == "xterm" ] ; then
     TERM=xterm-256color
