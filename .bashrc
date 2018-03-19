@@ -2,6 +2,9 @@ export PROJ=$HOME/proj
 export EDITOR=vim
 export CLICOLOR=""
 
+export QMK_ROOT=$PROJ/hid/qmk_firmware
+export QMK_CUSTOM=$QMK_ROOT/keyboards/ergodox_ez/keymaps
+
 # Fix TERM variable
 if [ "$TERM" == "xterm" ] ; then
     TERM=xterm-256color
