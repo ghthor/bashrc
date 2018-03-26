@@ -103,13 +103,13 @@ set_ps1() {
 
   # Git & Gopath
   if [ -n "$git_branch" ] && [ -n "$gopath_str" ]; then
-    env_str=" \[$_env_col\][$git_str\[$_env_col\]|$gopath_str]"
+    env_str=" \[$_env_col\][$git_str\[$_env_col\]]($gopath_str)"
   # Just Git
   elif [ -n "$git_branch" ]; then
     env_str=" \[$_env_col\][$git_str\[$_env_col\]]"
   # Just Gopath
   elif [ -n "$gopath_str" ]; then
-    env_str=" \[$_env_col\][$gopath_str]"
+    env_str=" \[$_env_col\]($gopath_str)"
   else
     unset env_str
   fi
