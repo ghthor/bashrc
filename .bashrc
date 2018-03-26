@@ -23,6 +23,11 @@ if [[ -d "$GOROOT/bin" && ":$PATH:" != *":$GOROOT/bin:"* ]] ; then
     PATH=$GOROOT/bin:$PATH
 fi
 
+# Add Go Development Tools bin to path
+if [[ -d "$HOME/bin/go-dev-tools" && ":$PATH:" != *":$HOME/bin/go-dev-tools:"* ]] ; then
+    PATH=$HOME/bin/go-dev-tools:$PATH
+fi
+
 # Add $HOME/.local/bin to Path
 if [[ -d "$HOME/.local/bin" && ":$PATH:" != *":$HOME/.local/bin:"* ]] ; then
     PATH=$HOME/.local/bin:$PATH
