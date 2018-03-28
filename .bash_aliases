@@ -15,16 +15,15 @@ alias gitexport='git daemon --base-path=$PWD/../ --verbose --export-all'
 alias gtree='git-forest --sha -n20'
 alias gfresh='g reset --hard HEAD && git clean -f -d'
 
-
 if [[ $(uname) == "Darwin" ]]; then
-	alias xcrmdd='rm -v -rf $HOME/Library/Developer/Xcode/DerivedData/*'
-	alias openproj='open *.xcworkspace'
-	alias sysupg='brew update && brew upgrade'
+  alias xcrmdd='rm -v -rf $HOME/Library/Developer/Xcode/DerivedData/*'
+  alias openproj='open *.xcworkspace'
+  alias sysupg='brew update && brew upgrade'
 else
-	# keychain
-	alias kch='eval $(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)'
-	alias open='xdg-open'
-	alias sysupg='yaourt -Syua'
+  # keychain
+  alias kch='eval $(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)'
+  alias open='xdg-open'
+  alias sysupg='yaourt -Syua'
 fi
 
 alias cdgopath='cd $GOPATH'

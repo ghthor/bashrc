@@ -9,41 +9,43 @@ export WINEPREFIX=$HOME/.wine-dnd/
 export WINEARCH=win32
 
 # Fix TERM variable
-if [ "$TERM" == "xterm" ] ; then
-    TERM=xterm-256color
+if [ "$TERM" == "xterm" ]; then
+  TERM=xterm-256color
 fi
 
+# TODO: Make a Func for adding dir's to paths
+
 # Add $GOPATH/bin to path
-if [[ -d "$GOPATH/bin" && ":$PATH:" != *":$GOPATH/bin:"* ]] ; then
-    PATH=$GOPATH/bin:$PATH
+if [[ -d "$GOPATH/bin" && ":$PATH:" != *":$GOPATH/bin:"* ]]; then
+  PATH=$GOPATH/bin:$PATH
 fi
 
 # Add $GOROOT/bin to path
-if [[ -d "$GOROOT/bin" && ":$PATH:" != *":$GOROOT/bin:"* ]] ; then
-    PATH=$GOROOT/bin:$PATH
+if [[ -d "$GOROOT/bin" && ":$PATH:" != *":$GOROOT/bin:"* ]]; then
+  PATH=$GOROOT/bin:$PATH
 fi
 
 # Add Go Development Tools bin to path
-if [[ -d "$HOME/bin/go-dev-tools" && ":$PATH:" != *":$HOME/bin/go-dev-tools:"* ]] ; then
-    PATH=$HOME/bin/go-dev-tools:$PATH
+if [[ -d "$HOME/bin/go-dev-tools" && ":$PATH:" != *":$HOME/bin/go-dev-tools:"* ]]; then
+  PATH=$HOME/bin/go-dev-tools:$PATH
 fi
 
 # Add $HOME/.local/bin to Path
-if [[ -d "$HOME/.local/bin" && ":$PATH:" != *":$HOME/.local/bin:"* ]] ; then
-    PATH=$HOME/.local/bin:$PATH
+if [[ -d "$HOME/.local/bin" && ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+  PATH=$HOME/.local/bin:$PATH
 fi
 
 # Add $HOME/bin to path
-if [[ -d "$HOME/bin" && ":$PATH:" != *":$HOME/bin:"* ]] ; then
-    PATH=$HOME/bin:$PATH
+if [[ -d "$HOME/bin" && ":$PATH:" != *":$HOME/bin:"* ]]; then
+  PATH=$HOME/bin:$PATH
 fi
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 # Homebrew bash completion
-command -v brew 2>&1 > /dev/null && \
-  [[ -f $(brew --prefix)/etc/bash_completion ]] && \
+command -v brew 2>&1 >/dev/null &&
+  [[ -f $(brew --prefix)/etc/bash_completion ]] &&
   . $(brew --prefix)/etc/bash_completion
 
 # -------------------------------------------------------
@@ -51,23 +53,23 @@ command -v brew 2>&1 > /dev/null && \
 # -------------------------------------------------------
 
 # Prompt colors
-_txt_col="\e[00m"     # Std text (white)
-_bld_col="\e[01;37m"  # Bold text (white)
-_wrn_col="\e[01;31m"  # Warning
-_sep_col=$_txt_col    # Separators
-_usr_col="\e[01;32m"  # Username
-_cwd_col=$_txt_col    # Current directory
-_hst_col="\e[0;32m"   # Host
-_env_col="\e[0;36m"   # Prompt environment
-_git_col="\e[01;36m"  # Git branch
+_txt_col="\e[00m"    # Std text (white)
+_bld_col="\e[01;37m" # Bold text (white)
+_wrn_col="\e[01;31m" # Warning
+_sep_col=$_txt_col   # Separators
+_usr_col="\e[01;32m" # Username
+_cwd_col=$_txt_col   # Current directory
+_hst_col="\e[0;32m"  # Host
+_env_col="\e[0;36m"  # Prompt environment
+_git_col="\e[01;36m" # Git branch
 
 # Returns the current git branch (returns nothing if not a git repository)
 parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+  git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 parse_git_dirty() {
-  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working tree clean" ]] && echo "±"
+  [[ $(git status 2>/dev/null | tail -n1) != "nothing to commit, working tree clean" ]] && echo "±"
 }
 
 # Returns the current ruby version.
@@ -91,8 +93,8 @@ set_ps1() {
   user_str="\[$_usr_col\]\u\[$_hst_col\]@\h\[$_txt_col\]"
   dir_str="\[$_cwd_col\]\w"
 
-  git_branch=`parse_git_branch`
-  git_dirty=`parse_git_dirty`
+  git_branch=$(parse_git_branch)
+  git_dirty=$(parse_git_dirty)
   git_str="\[$_git_col\]$git_branch\[$_wrn_col\]$git_dirty"
 
   if [ -n "$GOPATH" ]; then
@@ -104,10 +106,10 @@ set_ps1() {
   # Git & Gopath
   if [ -n "$git_branch" ] && [ -n "$gopath_str" ]; then
     env_str=" \[$_env_col\][$git_str\[$_env_col\]]($gopath_str)"
-  # Just Git
+    # Just Git
   elif [ -n "$git_branch" ]; then
     env_str=" \[$_env_col\][$git_str\[$_env_col\]]"
-  # Just Gopath
+    # Just Gopath
   elif [ -n "$gopath_str" ]; then
     env_str=" \[$_env_col\]($gopath_str)"
   else
@@ -116,12 +118,12 @@ set_ps1() {
 
   # < username >@< hostname > < current directory > [< git branch >|< ruby version >]
   case $TERM in
-      xterm*)
-          PS1="$term_title_str$user_str $dir_str$env_str\n\[$_sep_col\]$ \[$_txt_col\]"
-          ;;
-      *)
-          PS1='[\u@\h \W]\$ '
-          ;;
+  xterm*)
+    PS1="$term_title_str$user_str $dir_str$env_str\n\[$_sep_col\]$ \[$_txt_col\]"
+    ;;
+  *)
+    PS1='[\u@\h \W]\$ '
+    ;;
   esac
 }
 
@@ -140,12 +142,12 @@ export GREP_COLOR='1;32'
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 if [ -f "$HOME/.bash_aliases" ]; then
-    . "$HOME/.bash_aliases"
+  . "$HOME/.bash_aliases"
 fi
 
 # Function definitions
 if [ -f "$HOME/.bash_funcs" ]; then
-    . "$HOME/.bash_funcs"
+  . "$HOME/.bash_funcs"
 fi
 
 set -o vi
@@ -158,7 +160,7 @@ set -o vi
 
 unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-	export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+  export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
 fi
 
 # Setup nvm

@@ -1,4 +1,3 @@
-
 export GOPATH_USER=$PROJ/go
 export GOPATH_USER_GH=$GOPATH_USER/src/github.com
 export GOPATH_USER_BB=$GOPATH_USER/src/bitbucket.org
@@ -8,6 +7,6 @@ export GOPATH=$GOPATH_USER
 GOBIN=$GOPATH/bin
 
 # Add Home bin dir to path
-if [[ -d "$GOBIN" && ":$PATH:" != *":$GOBIN:"* ]] ; then
-    PATH=$GOBIN:$PATH
+if [[ -d "$GOBIN" && ":$PATH:" != *":$GOBIN:"* ]]; then
+  PATH=$GOBIN:$PATH
 fi
