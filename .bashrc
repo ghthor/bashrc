@@ -13,32 +13,30 @@ if [ "$TERM" == "xterm" ]; then
   TERM=xterm-256color
 fi
 
-# TODO: Make a Func for adding dir's to paths
+# src: https://unix.stackexchange.com/a/217629
+pathmunge() {
+  if [ -d "$1" ]; then
+    if ! echo "$PATH" | grep -Eq "(^|:)$1($|:)"; then
+      if [ "$2" = "after" ]; then
+        PATH="$PATH:$1"
+      else
+        PATH="$1:$PATH"
+      fi
+    fi
+  fi
+}
 
-# Add $GOPATH/bin to path
-if [[ -d "$GOPATH/bin" && ":$PATH:" != *":$GOPATH/bin:"* ]]; then
-  PATH=$GOPATH/bin:$PATH
-fi
+binPaths=(
+  "$HOME/.local/bin"
+  "$GOPATH/bin"
+  "$GOROOT/bin"
+  "$HOME/bin/go-dev-tools"
+  "$HOME/bin"
+)
 
-# Add $GOROOT/bin to path
-if [[ -d "$GOROOT/bin" && ":$PATH:" != *":$GOROOT/bin:"* ]]; then
-  PATH=$GOROOT/bin:$PATH
-fi
-
-# Add Go Development Tools bin to path
-if [[ -d "$HOME/bin/go-dev-tools" && ":$PATH:" != *":$HOME/bin/go-dev-tools:"* ]]; then
-  PATH=$HOME/bin/go-dev-tools:$PATH
-fi
-
-# Add $HOME/.local/bin to Path
-if [[ -d "$HOME/.local/bin" && ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
-  PATH=$HOME/.local/bin:$PATH
-fi
-
-# Add $HOME/bin to path
-if [[ -d "$HOME/bin" && ":$PATH:" != *":$HOME/bin:"* ]]; then
-  PATH=$HOME/bin:$PATH
-fi
+for dir in "${binPaths[@]}"; do
+  pathmunge "$dir"
+done
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
