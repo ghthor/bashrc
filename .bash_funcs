@@ -6,3 +6,8 @@ ff() {
 }
 
 type whence >/dev/null 2>&1 || whence() { type "$@" | sed -e "s/.*is aliased to \`//" -e "s/'$//"; }
+
+unquote() {
+  read str
+  sed -e 's/^"//' -e 's/"$//' <<<"$str"
+}
