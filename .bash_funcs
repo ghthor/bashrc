@@ -11,3 +11,10 @@ unquote() {
   read str
   sed -e 's/^"//' -e 's/"$//' <<<"$str"
 }
+
+gocover() {
+  t="/tmp/gocover.$$.tmp"
+  go test -coverprofile=${t} $@ &&
+    go tool cover -html=${t} &&
+    unlink ${t}
+}
