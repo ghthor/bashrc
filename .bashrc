@@ -159,9 +159,11 @@ set -o vi
 # OSX
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
-unset SSH_AGENT_PID
-if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-  export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+if [ ! "$(uname)" = "Darwin" ]; then
+  unset SSH_AGENT_PID
+  if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+    export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+  fi
 fi
 
 # Setup nvm
