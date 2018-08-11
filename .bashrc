@@ -104,10 +104,10 @@ set_ps1() {
   # Git & Gopath
   if [ -n "$git_branch" ] && [ -n "$gopath_str" ]; then
     env_str=" \[$_env_col\][$git_str\[$_env_col\]]($gopath_str)"
-    # Just Git
+  # Just Git
   elif [ -n "$git_branch" ]; then
     env_str=" \[$_env_col\][$git_str\[$_env_col\]]"
-    # Just Gopath
+  # Just Gopath
   elif [ -n "$gopath_str" ]; then
     env_str=" \[$_env_col\]($gopath_str)"
   else
@@ -160,11 +160,16 @@ set -o vi
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 if [ ! "$(uname)" = "Darwin" ]; then
-  unset SSH_AGENT_PID
+  if [ "${SSH_AGENT_PID:-0}" -ne $$ ]; then
+    unset SSH_AGENT_PID
+  fi
   if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-    export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+    export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
   fi
 fi
+
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # Setup nvm
 [[ -s "/usr/share/nvm/init-nvm.sh" ]] && . "/usr/share/nvm/init-nvm.sh"
