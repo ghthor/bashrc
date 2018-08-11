@@ -24,6 +24,7 @@ else
   alias kch='eval $(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)'
   alias open='xdg-open'
   alias sysupg='yay'
+  alias visys='vim /boot/syslinux/syslinux.cfg'
 fi
 
 alias cdgopath='cd $GOPATH'
