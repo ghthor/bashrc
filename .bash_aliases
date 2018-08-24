@@ -28,6 +28,7 @@ else
 fi
 
 alias cdgopath='cd $GOPATH'
+alias entgopath='GOPATH=$(pwd) bash'
 
 # Golang Quickies
 #alias godoc='godoc -goroot=/usr/lib/go -http=":6060"'
