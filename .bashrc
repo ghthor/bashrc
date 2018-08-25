@@ -41,27 +41,6 @@ done
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Config: Bash History
-
-# Eternal bash history.
-# ---------------------
-# Undocumented feature which sets the size to "unlimited".
-# http://stackoverflow.com/questions/9457233/unlimited-bash-history
-export HISTFILESIZE
-export HISTSIZE
-export HISTTIMEFORMAT="[%F %T] "
-# Change the file location because certain bash sessions truncate .bash_history file upon close.
-# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
-export HISTFILE=~/.bash_eternal_history
-# Force prompt to write history after every command.
-# http://superuser.com/questions/20900/bash-history-loss
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
-
-# Homebrew bash completion
-command -v brew 2>&1 >/dev/null &&
-  [[ -f $(brew --prefix)/etc/bash_completion ]] &&
-  . $(brew --prefix)/etc/bash_completion
-
 # -------------------------------------------------------
 # Prompt / Xterm
 # -------------------------------------------------------
@@ -120,10 +99,10 @@ set_ps1() {
   # Git & Gopath
   if [ -n "$git_branch" ] && [ -n "$gopath_str" ]; then
     env_str=" \[$_env_col\][$git_str\[$_env_col\]]($gopath_str)"
-  # Just Git
+    # Just Git
   elif [ -n "$git_branch" ]; then
     env_str=" \[$_env_col\][$git_str\[$_env_col\]]"
-  # Just Gopath
+    # Just Gopath
   elif [ -n "$gopath_str" ]; then
     env_str=" \[$_env_col\]($gopath_str)"
   else
@@ -148,33 +127,26 @@ PROMPT_COMMAND='set_ps1;'
 export GREP_COLOR='1;32'
 
 # -------------------------------------------------------
-# Prompt / Xterm
+# Config: Bash History
 # -------------------------------------------------------
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f "$HOME/.bash_aliases" ]; then
-  . "$HOME/.bash_aliases"
-fi
+# Eternal bash history.
+# ---------------------
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE
+export HISTSIZE
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
-# Function definitions
-if [ -f "$HOME/.bash_funcs" ]; then
-  . "$HOME/.bash_funcs"
-fi
-
-set -o vi
-
-# Setup SCM Breeze
-[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"
-
-# Setup autojump support
-# Arch
-[[ -s "/usr/share/autojump/autojump.bash" ]] && . "/usr/share/autojump/autojump.bash"
-# OSX
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
-
+# -------------------------------------------------------
+# GPG & SSH Agent
+# -------------------------------------------------------
 if [ ! "$(uname)" = "Darwin" ]; then
   if [ "${SSH_AGENT_PID:-0}" -ne $$ ]; then
     unset SSH_AGENT_PID
@@ -187,8 +159,40 @@ fi
 export GPG_TTY=$(tty)
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
+# -------------------------------------------------------
+# Bash Completion - Homebrew
+# -------------------------------------------------------
+
+if [ "$(uname)" = "Darwin" ]; then
+  command -v brew 2>&1 >/dev/null &&
+    [[ -f $(brew --prefix)/etc/bash_completion ]] &&
+    . $(brew --prefix)/etc/bash_completion
+fi
+
+# Setup scm_breeze
+[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"
+
+# Setup autojump support
+if [ ! "$(uname)" = "Darwin" ]; then
+  [[ -s "/usr/share/autojump/autojump.bash" ]] && . "/usr/share/autojump/autojump.bash"
+else
+  [[ -s "/usr/local/etc/profile.d/autojump.sh" ]] && . "/usr/local/etc/profile.d/autojump.sh"
+fi
+
 # Setup nvm
 [[ -s "/usr/share/nvm/init-nvm.sh" ]] && . "/usr/share/nvm/init-nvm.sh"
 
 # Setup fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Setup function definitions
+if [ -f "$HOME/.bash_funcs" ]; then
+  . "$HOME/.bash_funcs"
+fi
+
+# Setup alias definitions
+if [ -f "$HOME/.bash_aliases" ]; then
+  . "$HOME/.bash_aliases"
+fi
+
+set -o vi
