@@ -13,6 +13,12 @@ if [ "$TERM" == "xterm" ]; then
   TERM=xterm-256color
 fi
 
+# Fix OSX locale
+if [ "$(uname)" = "Darwin" ]; then
+  export LC_ALL=en_US.UTF-8
+  export LANG=en_US.UTF-8
+fi
+
 # src: https://unix.stackexchange.com/a/217629
 pathmunge() {
   if [ -d "$1" ]; then
