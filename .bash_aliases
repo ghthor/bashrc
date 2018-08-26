@@ -31,3 +31,4 @@ alias cdgopath='cd $GOPATH'
 
 # Golang Quickies
 #alias godoc='godoc -goroot=/usr/lib/go -http=":6060"'
+alias watch-sensors-cli='for ((;;)); do clear; sensors; sleep 1; done'
