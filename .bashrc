@@ -1,3 +1,7 @@
+#
+# ~/.bashrc
+#
+
 export PROJ=$HOME/proj
 export EDITOR=vim
 export CLICOLOR=""
