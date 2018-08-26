@@ -17,6 +17,12 @@ if [ "$TERM" == "xterm" ]; then
   TERM=xterm-256color
 fi
 
+# Fix OSX locale
+if [ "$(uname)" = "Darwin" ]; then
+  export LC_ALL=en_US.UTF-8
+  export LANG=en_US.UTF-8
+fi
+
 # src: https://unix.stackexchange.com/a/217629
 pathmunge() {
   if [ -d "$1" ]; then
@@ -44,11 +50,6 @@ done
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-
-# Homebrew bash completion
-command -v brew 2>&1 >/dev/null &&
-  [[ -f $(brew --prefix)/etc/bash_completion ]] &&
-  . $(brew --prefix)/etc/bash_completion
 
 # -------------------------------------------------------
 # Prompt / Xterm
@@ -136,33 +137,56 @@ PROMPT_COMMAND='set_ps1;'
 export GREP_COLOR='1;32'
 
 # -------------------------------------------------------
-# Prompt / Xterm
+# Config: Bash History
 # -------------------------------------------------------
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f "$HOME/.bash_aliases" ]; then
-  . "$HOME/.bash_aliases"
+# Eternal bash history.
+# ---------------------
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE
+export HISTSIZE
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# -------------------------------------------------------
+# GPG & SSH Agent
+# -------------------------------------------------------
+if [ ! "$(uname)" = "Darwin" ]; then
+  if [ "${SSH_AGENT_PID:-0}" -ne $$ ]; then
+    unset SSH_AGENT_PID
+  fi
+  if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+    export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+  fi
 fi
 
-# Function definitions
-if [ -f "$HOME/.bash_funcs" ]; then
-  . "$HOME/.bash_funcs"
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
+
+# -------------------------------------------------------
+# Bash Completion - Homebrew
+# -------------------------------------------------------
+
+if [ "$(uname)" = "Darwin" ]; then
+  command -v brew 2>&1 >/dev/null &&
+    [[ -f $(brew --prefix)/etc/bash_completion ]] &&
+    . $(brew --prefix)/etc/bash_completion
 fi
 
-set -o vi
-
-# Setup SCM Breeze
+# Setup scm_breeze
 [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"
 
 # Setup autojump support
-[[ -s "/usr/share/autojump/autojump.bash" ]] && . "/usr/share/autojump/autojump.bash"
-
-unset SSH_AGENT_PID
-if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-  export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+if [ ! "$(uname)" = "Darwin" ]; then
+  [[ -s "/usr/share/autojump/autojump.bash" ]] && . "/usr/share/autojump/autojump.bash"
+else
+  [[ -s "/usr/local/etc/profile.d/autojump.sh" ]] && . "/usr/local/etc/profile.d/autojump.sh"
 fi
 
 # Setup nvm
@@ -170,3 +194,15 @@ fi
 
 # Setup fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Setup function definitions
+if [ -f "$HOME/.bash_funcs" ]; then
+  . "$HOME/.bash_funcs"
+fi
+
+# Setup alias definitions
+if [ -f "$HOME/.bash_aliases" ]; then
+  . "$HOME/.bash_aliases"
+fi
+
+set -o vi
