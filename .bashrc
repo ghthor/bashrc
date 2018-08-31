@@ -58,11 +58,13 @@ done
 # Prompt colors
 _txt_col="\e[00m"    # Std text (white)
 _bld_col="\e[01;37m" # Bold text (white)
+_grn_col="\e[0;32m"  # Green
+
 _wrn_col="\e[01;31m" # Warning
 _sep_col=$_txt_col   # Separators
 _usr_col="\e[01;32m" # Username
 _cwd_col=$_txt_col   # Current directory
-_hst_col="\e[0;32m"  # Host
+_hst_col=$_grn_col   # Host
 _env_col="\e[0;36m"  # Prompt environment
 _git_col="\e[01;36m" # Git branch
 
@@ -91,7 +93,7 @@ parse_ruby_version() {
 #     user@hostname ~/current/working/directory [master|1.8.7]$
 
 # (Prompt strings need '\['s around colors.)
-set_ps1() {
+function set_ps1() {
   term_title_str="\[\033]0;\u@\h: \w\007\]"
   user_str="\[$_usr_col\]\u\[$_hst_col\]@\h\[$_txt_col\]"
   dir_str="\[$_cwd_col\]\w"
@@ -119,10 +121,14 @@ set_ps1() {
     unset env_str
   fi
 
-  # < username >@< hostname > < current directory > [< git branch >|< ruby version >]
+  # <date>
+  # <exitcode> <username>@<hostname> <pwd> [<git branch>](<gopath>)
+  # $
   case $TERM in
   xterm*)
-    PS1="$term_title_str$user_str $dir_str$env_str\n\[$_sep_col\]$ \[$_txt_col\]"
+    PS1="$term_title_str"
+    PS1+="\$(EXIT="\$?"; date; if [ \$EXIT == 0 ]; then echo \"$_grn_col\$EXIT\"; else echo \"$_wrn_col\$EXIT\"; fi) "
+    PS1+="$user_str $dir_str$env_str\n\[$_sep_col\]$ \[$_txt_col\]"
     ;;
   *)
     PS1='[\u@\h \W]\$ '
