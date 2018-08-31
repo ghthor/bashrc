@@ -185,22 +185,6 @@ if [ "$(uname)" = "Darwin" ]; then
     . $(brew --prefix)/etc/bash_completion
 fi
 
-# Setup scm_breeze
-[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"
-
-# Setup autojump support
-if [ ! "$(uname)" = "Darwin" ]; then
-  [[ -s "/usr/share/autojump/autojump.bash" ]] && . "/usr/share/autojump/autojump.bash"
-else
-  [[ -s "/usr/local/etc/profile.d/autojump.sh" ]] && . "/usr/local/etc/profile.d/autojump.sh"
-fi
-
-# Setup nvm
-[[ -s "/usr/share/nvm/init-nvm.sh" ]] && . "/usr/share/nvm/init-nvm.sh"
-
-# Setup fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
 # Setup function definitions
 if [ -f "$HOME/.bash_funcs" ]; then
   . "$HOME/.bash_funcs"
@@ -210,5 +194,21 @@ fi
 if [ -f "$HOME/.bash_aliases" ]; then
   . "$HOME/.bash_aliases"
 fi
+
+# Setup nvm
+[[ -s "/usr/share/nvm/init-nvm.sh" ]] && . "/usr/share/nvm/init-nvm.sh"
+
+# Setup autojump support
+if [ ! "$(uname)" = "Darwin" ]; then
+  [[ -s "/usr/share/autojump/autojump.bash" ]] && . "/usr/share/autojump/autojump.bash"
+else
+  [[ -s "/usr/local/etc/profile.d/autojump.sh" ]] && . "/usr/local/etc/profile.d/autojump.sh"
+fi
+
+# Setup fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Setup scm_breeze
+[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"
 
 set -o vi
